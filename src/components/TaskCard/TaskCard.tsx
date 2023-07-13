@@ -43,6 +43,9 @@ const TaskCard = observer(({ task }: { task: Task }) => {
     const task = {
       ...data,
       id: data?.id || Math.floor(Math.random() * 100 + 50).toString(),
+      title: data?.title || '',
+      description: data?.description || '',
+      status: data?.status || '',
     };
     console.log(task);
     updateTask(task);

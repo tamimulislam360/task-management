@@ -24,7 +24,9 @@ export default function Navbar() {
 
     const task = {
       id: data?.id || Math.floor(Math.random() * 100 + 50).toString(),
-      ...data
+      title: data?.title || '',
+      description: data?.description || '',
+      status: data?.status || '',
     };
     console.log(task);
     createTask(task);
@@ -32,7 +34,7 @@ export default function Navbar() {
 
   return (
     <>
-      <NavBar className="mx-auto max-w-2xl py-2 px-4 lg:px-8 lg:py-4 bg-white lg:fixed top-3 lg:left-[50%] lg:-translate-x-[50%] rounded-none lg:rounded-full">
+      <NavBar className="mx-auto max-w-2xl z-50 py-2 px-4 lg:px-8 lg:py-4 bg-white lg:fixed top-3 lg:left-[50%] lg:-translate-x-[50%] rounded-none lg:rounded-full">
         <div className="container mx-auto flex items-center justify-between">
           <Link
             href="/"

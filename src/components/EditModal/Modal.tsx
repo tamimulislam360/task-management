@@ -20,6 +20,9 @@ export default function Modal({
   const [task, setTask] = useState<Partial<Task>>(data || {});
 
   const confirmHandle = (data: Partial<Task>) => {
+    if (data.title === '' || data.description === '' || data.status === '') {
+      return alert('Fill every field!')
+    }
     handleConfirm(data);
     setTask({});
   };
@@ -45,6 +48,7 @@ export default function Modal({
                 value={task.title}
                 onChange={(e) => setTask({ ...task, title: e.target.value })}
                 label="Title"
+                required
               />
               <Input
                 size="lg"
@@ -53,6 +57,7 @@ export default function Modal({
                   setTask({ ...task, description: e.target.value })
                 }
                 label="Description"
+                required
               />
               <div className="w-72">
                 <Typography variant="small">Status</Typography>
@@ -60,6 +65,7 @@ export default function Modal({
                   className="cursor-pointer outline-none focus:outline-none px-2 border-none"
                   value={task.status}
                   onChange={(e) => setTask({ ...task, status: e.target.value })}
+                  required
                 >
                   <option className="border-none" value="Select Status">
                     Select Status
