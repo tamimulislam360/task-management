@@ -1,6 +1,7 @@
 import { types } from 'mobx-state-tree'
 import { Task } from './modals'
 import {values} from 'mobx'
+import { Task as TaskType } from '@/types'
 
 
 const RootStore = types.model({
@@ -18,14 +19,14 @@ const RootStore = types.model({
     },
 }))
 .actions(self => ({
-    addTask(task) {
+    addTask(task: TaskType) {
         self.tasks.push(task);
     },
-    editTask(task) {
+    editTask(task: TaskType) {
         const index = self.tasks.findIndex(t => t.id === task.id);
         self.tasks[index] = task;
     },
-    deleteTask(id) {
+    deleteTask(id: string) {
         const index = self.tasks.findIndex(task => task.id === id);
         if (index !== -1) {
             self.tasks.splice(index, 1);
