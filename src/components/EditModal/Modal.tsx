@@ -4,21 +4,20 @@ import { Fragment, useState } from "react";
 import {
   Button,
   Dialog,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
   Typography,
-  Checkbox,
   Input,
   Card,
-  Select,
-  Option,
 } from "@material-tailwind/react";
  
-export default function EditModal({ open, handleOpen, handleClose, data }) {
-    const [task, setTask] = useState(data)
+export default function Modal({ open, handleOpen, handleClose, data, handleConfirm }) {
+    const [task, setTask] = useState(data || {});
 
-// console.log(data);
+  const confirmHandle = (data) => {
+    handleConfirm(data)
+    setTask({})
+  }
+
+console.log(data);
  
   return (
     <Fragment>
@@ -41,6 +40,7 @@ export default function EditModal({ open, handleOpen, handleClose, data }) {
           <div className="w-72">
             <Typography variant="small">Status</Typography>
             <select className="cursor-pointer outline-none focus:outline-none px-2 border-none" value={task.status} onChange={(e) => setTask({...task, status: e.target.value})} >
+                <option className="border-none" value="Select Status">Select Status</option>
                 <option className="border-none" value="To Do">To Do</option>
                 <option className="border-none" value="In Progress">In Progress</option>
             </select>
@@ -59,7 +59,7 @@ export default function EditModal({ open, handleOpen, handleClose, data }) {
           <Button
             variant="gradient"
             color="green"
-            onClick={handleClose}
+            onClick={() => confirmHandle(task)}
           >
             <span>Confirm</span>
           </Button>

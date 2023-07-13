@@ -8,119 +8,59 @@ import {
   Button,
   IconButton,
 } from "@material-tailwind/react";
- 
+import Modal from "../EditModal/Modal";
+import { createTask } from "@/lib/lib";
+import Link from "next/link";
+import {AiOutlinePlusCircle} from 'react-icons/ai'
+
+
+
 export default function Navbar() {
-  const [openNav, setOpenNav] = useState(false);
- 
-  useEffect(() => {
-    window.addEventListener("resize", () => window.innerWidth >= 960 && setOpenNav(false));
-  }, []);
- 
-  const navList = (
-    <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <a href="#" className="flex items-center">
-          Pages
-        </a>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <a href="#" className="flex items-center">
-          Account
-        </a>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <a href="#" className="flex items-center">
-          Blocks
-        </a>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <a href="#" className="flex items-center">
-          Docs
-        </a>
-      </Typography>
-    </ul>
-  );
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = (data) => {
+    setOpen((prev) => !prev);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleConfirm = (data) => {
+    setOpen(false)
+    const task = {
+      id: data?.id || Math.floor(Math.random() * 100 + 50).toString(),
+      ...data
+    }
+    console.log(task);
+    createTask(task)
+  }
+
  
   return (
-    <NavBar className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4 bg-white lg:fixed top-3 lg:left-[50%] lg:-translate-x-[50%] rounded-none lg:rounded-full">
+    <>
+      <NavBar className="mx-auto max-w-2xl py-2 px-4 lg:px-8 lg:py-4 bg-white lg:fixed top-3 lg:left-[50%] lg:-translate-x-[50%] rounded-none lg:rounded-full">
       <div className="container mx-auto flex items-center justify-between">
-        <Typography
-          as="a"
-          href="#"
-          className="mr-4 cursor-pointer py-1.5 font-medium text-black"
+        <Link
+          href="/"
+          className="mr-4 cursor-pointer py-1.5 text-black text-2xl font-bold"
         >
           Task.
-        </Typography>
-        <div className="hidden ml-auto lg:block">{navList}</div>
-        <Button variant="gradient" size="sm" className="ml-auto">
-          <span>Buy Now</span>
+        </Link>
+        <Button onClick={handleOpen} variant="gradient" size="sm" className="ml-auto flex items-center gap-1 rounded-full">
+          <AiOutlinePlusCircle className="text-xl font-bold" /> <span>Add Task</span>
         </Button>
-        <IconButton
-          variant="text"
-          className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
-          ripple={false}
-          onClick={() => setOpenNav(!openNav)}
-        >
-          {openNav ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              className="h-6 w-6"
-              viewBox="0 0 24 24"
-              stroke="#000"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          ) : (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              stroke="#000"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          )}
-        </IconButton>
+        
       </div>
-      <MobileNav open={openNav}>
-        <div className="container mx-auto">
-          {navList}
-          <Button variant="gradient" size="sm" fullWidth className="mb-2">
-            <span>Buy Now</span>
-          </Button>
-        </div>
-      </MobileNav>
-    </NavBar>
+      </NavBar>
+      
+        <Modal
+          open={open}
+          handleOpen={handleOpen}
+          handleClose={handleClose}
+          handleConfirm={handleConfirm}
+        />
+      
+    </>
   );
 }
