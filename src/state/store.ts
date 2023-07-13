@@ -36,8 +36,10 @@ const RootStore = types.model({
 }))
 
 
+const isBrowser = typeof window !== 'undefined';
+
 // retrive tasks from localStorage
-const tasks = localStorage.getItem('tasks')
+const tasks = isBrowser ? localStorage.getItem('tasks') : null;
 let parsedTasks
 
 if (tasks) {
